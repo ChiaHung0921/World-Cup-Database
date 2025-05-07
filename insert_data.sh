@@ -43,4 +43,19 @@ do
       fi
     fi
   fi
+
+  if [[ $winner != "winner" ]]
+  then 
+    # get winner_id via teams table
+    search_of_winner_id=$($PSQL "SELECT team_id FROM teams WHERE name='$winner'")
+  fi
+
+  if [[ $opponent != "opponent" ]]
+  then 
+    # get opponent_id via teams table
+    search_of_opponent_id=$($PSQL "SELECT team_id FROM teams WHERE name='$opponent'")
+  fi
+
+  # insert info
+  insert__info=$($PSQL "INSERT INTO games(year, round, winner_id, opponent_id, winner_goals, opponent_goals) VALUES($year, '$round', '$search_of_winner_id', '$search_of_opponent_id', $winner_goals, $opponent_goals)")
 done
